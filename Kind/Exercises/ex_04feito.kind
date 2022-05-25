@@ -1,0 +1,147 @@
+// Advanced exercises involving recursion
+type Neg { 
+  one
+  pred(succ: Neg)
+}
+
+type Pos { 
+  zero
+  succ(pred: Pos)
+}
+
+
+type Inte { 
+  neg(num: Neg)
+  pos(num: Pos)
+}
+
+type Nat {
+  zero
+  succ(pred: Nat)
+}
+
+// Doubles a number
+dbl(a: Nat): Nat // double
+  case a{
+    zero: Nat.zero
+    succ: Nat.succ(Nat.succ(dbl(a.pred)))
+  }
+
+
+
+
+// Addition
+add(a: Nat, b: Nat): Nat
+  case a{
+    zero: case b{
+      zero: Nat.zero
+      succ: b
+    }
+    succ: case b{
+      zero: a
+      succ: Nat.succ(Nat.succ(add(a.pred,b.pred)))
+    }
+  }
+
+// Multiplication
+mul(a: Nat, b: Nat): Nat
+
+  case b{
+    zero: Nat.zero
+    succ: case a{
+      zero: Nat.zero
+      succ: (Nat.succ(add(mul(a.pred,b),b.pred)))
+    }
+  }
+ 
+  
+
+// Subtraction
+// 4 - 5 = 0
+// 5 - 4 = 1
+sub(a: Nat, b: Nat): Nat
+  case a{
+    zero: Nat.zero
+    succ: case b{
+      zero: a
+      succ: sub(a.pred,b.pred)
+    }
+  } 
+
+// Factorial
+// 4! = 24
+fac(a: Nat): Nat 
+  case a{
+    zero: Nat.succ(Nat.zero)
+    succ: mul(fac(a.pred),a)
+  }
+ 
+
+// Division
+// 1 / 2 = 0
+// x / 0 = 0
+// 5 / 2 = 2
+div(a: Nat, b: Nat): Nat // division
+  case a{
+    zero: Nat.zero
+    succ: case sub(a,b){
+        zero: 
+          case eql(a,b){
+          true: Nat.succ(Nat.zero)
+          false: (Nat.zero)
+        }
+        succ: Nat.succ(div(sub(a,b),b))
+      }
+    }
+
+
+
+
+// Equal
+eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
+    case a{
+    zero: case b{
+      zero:true
+      succ:false
+    }
+    succ:  case b{
+      zero: false
+      succ: eql(a.pred,b.pred)
+    }
+  } 
+
+// Do not use the "not" function to create the functions below
+
+// Greater than
+// 2 > 1 = True
+// 3 > 3 = False
+gtn(a: Nat, b: Nat): Bool // if A > B == True else false
+    case a{
+      zero: case b{
+        zero: false
+        succ: false 
+      }
+      succ:  case b{
+        zero: true
+        succ: gtn(a.pred,b.pred)
+      }
+  } 
+
+// Lower than
+// 1 < 2 = True
+// 3 < 3 = False
+ltn(a: Nat, b: Nat): Bool // if A > B == False else true 
+      case a{
+    zero: case b{
+      zero:false
+      succ:true
+    }
+    succ:  case b{
+      zero: true
+      succ: ltn(a.pred,b.pred)
+    }
+  } 
+ex_04:_
+ltn(2,3)
+
+

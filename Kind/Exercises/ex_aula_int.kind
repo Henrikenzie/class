@@ -1,0 +1,25 @@
+type Neg { 
+  one
+  pred(succ: Neg)
+}
+
+type Pos { 
+  zero
+  succ(pred: Pos)
+}
+
+
+type Inte { 
+  neg(num: Neg)
+  pos(num: Pos)
+}
+
+
+inc(n: Inte): Inte
+  case n{
+      neg: case n.num{
+          one: Inte.pos(Pos.zero)
+          pred: Inte.neg(n.num.succ)
+      }
+      pos: Inte.pos(Pos.succ(n.num))
+  }
